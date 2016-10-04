@@ -1,7 +1,0 @@
-Bem Vindo ao SJ HTTP v127.0.0.1
-
--p 			Indica a Porta que será usada para o servidor
-			formato do comando
-			-p <porta> 
-
--h 			Menu de ajuda

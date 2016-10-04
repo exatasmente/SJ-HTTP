@@ -1,0 +1,64 @@
+Bem Vindo ao SJ HTTP v127.0.1.1
+
+é necessário mapear o diretório "/wwwroot" e slavar os caminhos no arquivo "filesdir.dat"
+
+os caminhos para os arquivos deven ser colocados um em cada linha ex:
+
+ARQUIVOS PARA DOWNLOAD PRIMEIRO
+
+wwwroot/NOME_DO_ARQUIVO.FORMATO
+wwwroot/NOME_DO_DIRETORIO/NOME_DO_ARQUIVO.FORMATO
+...
+
+ARQUIVOS HTML, HTM 
+
+wwwroot/NOME_DA_PAGINA.FORMATO
+wwwroot/NOME_DO_DIRETORIO/NOME_DA_PAGINA.FORMATO
+...
+
+ARQUIVOS OU DIRETÓRIOS BLOQUEADOS DEVEM SER FORMATADOS ADICIONANDO UM "*" NO INICIO DO CAMINHO EX:
+
+*wwwroot/NOME_DO_DIRETORIO/NOME_DO_ARQUIVO.FORMATO 
+...
+
+
+
+==================================================================================================================================
+
+-p 			Indica a Porta usada para o servidor
+			formato do comando
+			-p <porta> 
+
+-h 			Menu de ajuda
+
+===================================================================================================================================
+			NOTAS DE ATUALIZAÇÃO
+
+
+Atualizacoes da Versao 127.0.1.1:
+
+Metodo GET para download de arquivos no formato:
+.zip
+.rar
+.mp3
+.jpg
+.jpeg
+.gif
+.png
+.exe
+
+inclusao do arquivo filestypelist.dat
+utilizado para controle do Metodo GET
+
+
+Inclusao da pasta /wwwroot
+pasta utilizada para armazenar os arquivos do servidor (consultar arquivo filesdir.dat)
+
+
+inclusao do Metodo "getRemoteAddress()"
+utilizado para exibir no terminal as solicitacoes do Cliente
+
+=================================================================================================================================
+
+
+

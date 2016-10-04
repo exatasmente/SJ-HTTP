@@ -1,117 +1,26 @@
-body {
+body 
+{
   background: #000000;
-  font-family: 'Titillium Web', sans-serif;
 }
-label .req {
-  margin: 20px;
-  color: #1ab188;
-}
-.form-container {
-   border: 0px solid #000000;
+.container 
+{
    background: #3d5eb3;
-   font-family: 'Helvetica Neue',Helvetica,sans-serif;
-   text-decoration: none;
-   vertical-align: middle;
    max-width: 600px;
-   padding:40px;
-   width:300px;
-   margin: 40px auto;
+   padding:400px;
+  
+   margin: auto;
    }
-.form-field {
-   text-transform: uppercase;
-   border: 0px;
-   background: #ffffff;
-   padding:8px;
-   margin-bottom:20px;
-   width:280px;
-   }
-.form-field:focus {
-   text-transform: uppercase;
-   background: #ffffff;
-   color: #000000;
-   }
-.form-container h2 {
-
+.container h2 
+{
    font-size:18px;
-   margin: 0 0 10px 0;
    font-weight:bold;
-   text-align:center;
-    }
-.form-container h1 {
-
+}
+.container a 
+{
    font-size:18px;
-   margin: 0 0 10px 0;
-   font-weight:bold;
-   text-align:justify;
-    }
-
-.form-title {
-
-   margin-bottom:10px;
+}
+.title 
+{
    color: #ffffff;
-   }
-.form-index {
-
-   color: #ffffff;
-   margin: 0 0 20px 80px;
-   }
-.submit-container {
-    position: absolute;
-    margin:10px 0;
-    text-align: middle;
-   }
-.submit-button {
-    
-    position:absolute;
-    
-   border: 0px #3d5eb3;
-   background: #3b73ff;
-   color: #ffffff;
-   font-family: helvetica, serif;
-   padding: 15px 45px;
-   font-size: 14px;
-   text-decoration: none;
-   vertical-align: middle;
-   }
-.submit-button:hover {
-   border: 0px solid #0000ff;
-   text-shadow: #000000 0 1px 0;
-   background: #0d2dff;
-   color: #fff;
-   }
-.submit-button:active {
-   text-shadow: #000000 0 1px 0;
-   border: 0px solid #151573;
-   background: #3936a3;
-   color: #fff;
-   }
-.button-container {
-  position: absolute;
-      margin:8px 5px;
-   text-align:middle;
-   }
-.button {
-  display: inline-block;
-    width: 80px;
-   border: 0px solid #3d5eb3;
-   background: #3b73ff;
-   color: #ffffff;
-   font-family: helvetica, serif;
-   padding: 15px 30px;
-   font-size: 14px;
-   text-decoration: none;
-   vertical-align: center;
-   }
-.button:hover {
-   border: 0px solid #0000ff;
-
-   background: #0d2dff;
-   color: #fff;
-   }
-.button:active {
-
-   border: 0px solid #151573;
-   background: #3936a3;
-   color: #fff;
-   }
+}
 
