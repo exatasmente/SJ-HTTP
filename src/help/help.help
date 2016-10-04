@@ -1,7 +1,42 @@
-Bem Vindo ao SJ HTTP v127.0.0.1
 
--p 			Indica a Porta que será usada para o servidor
+-p 			Indica a Porta usada para o servidor
 			formato do comando
 			-p <porta> 
 
 -h 			Menu de ajuda
+
+Bem Vindo ao SJ HTTP v127.0.1.1
+
+
+Atualizacoes da Versao 127.0.1.1:
+
+Metodo GET para download de arquivos no formato:
+.zip
+.rar
+.mp3
+.jpg
+.jpeg
+.gif
+.png
+.exe
+
+inclusao do arquivo filestypelist.dat
+utilizado para controle do Metodo GET
+
+
+Inclusao da pasta /wwwroot
+pasta utilizada para armazenar os arquivos do servidor (consultar arquivo filesdir.dat)
+
+
+inclusao do Metodo "getRemoteAddress()"
+utilizado para exibir no terminal as solicitacoes do Cliente
+
+
+
+
+
+
+
+
+
+

@@ -19,7 +19,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.Headers;
 
-public class ServidorHTTPJava 
+public class SJHTTP 
 {
 
     public static void main(String[] args) throws Exception 
@@ -44,7 +44,6 @@ public class ServidorHTTPJava
         InetSocketAddress Socket = new InetSocketAddress(p);
         HttpServer servidor = HttpServer.create(Socket, 0);
         servidor.createContext("/", new InfoHandler());
-        servidor.createContext("/sjhttp.zip", new GetHandler());
         servidor.setExecutor(null);
         servidor.start();
         System.out.println("Servidor Online");
@@ -57,6 +56,12 @@ public class ServidorHTTPJava
         {
             String phaser ="";
             String dir = httpExchange.getRequestURI().toString();
+            String url =fileType(dir);
+            if(url != "")
+            {
+                System.out.println(url);
+                GetHandle(httpExchange, url, dir);
+            }
             System.out.println(dir);
             if(dir.equals("/"))
             {
@@ -66,16 +71,18 @@ public class ServidorHTTPJava
             if(phaser == "403")
             {
                 String erro =errorPhaser(phaser);
-                ServidorHTTPJava.writeResponse(httpExchange,erro);
+                SJHTTP.writeResponse(httpExchange,erro);
 
             }
             if(phaser == "404")
             {
                 String erro = errorPhaser(phaser);
-                ServidorHTTPJava.writeResponse(httpExchange,erro);
+                SJHTTP.writeResponse(httpExchange,erro);
 
             }
-            
+            else
+            {
+
                 System.out.println(phaser);
                 BufferedReader buffRead = new BufferedReader(new FileReader(phaser));
                 String response ="";
@@ -95,20 +102,22 @@ public class ServidorHTTPJava
 
                 String resposta = response;
 
-                ServidorHTTPJava.writeResponse(httpExchange, resposta);
-            
+                SJHTTP.writeResponse(httpExchange, resposta);
+            }
         }
-
+        
+        
         private static String phaserCheck(String arquivo)throws IOException 
         {
-            BufferedReader buffRead = new BufferedReader(new FileReader("filesdir.txt"));
-
+            BufferedReader buffRead = new BufferedReader(new FileReader("filesdir.dat"));
+            
             String resposta ="404";
             String linha = "";
             String linha0 = "";
+            String linha1 = "";
             char[] arq = arquivo.toCharArray();
             arq[0]=' ';
-
+            
             arquivo = String.valueOf(arq);    
             arquivo = arquivo.trim();
 
@@ -116,16 +125,18 @@ public class ServidorHTTPJava
             {
                 if (linha != null)
                 {
-                    linha0 = linha.replace("*","");
-                    if(linha0.equals(arquivo))
+                    linha0 = linha.replace("wwwroot/","");
+
+                    linha1 = linha0.replace("*","");
+
+                    if(linha1.equals(arquivo))
                     {
                         if(linha.indexOf("*")> -1)
                         {
                             resposta = "403";
                             break;
                         }
-                        resposta=linha;
-
+                        resposta=linha.replace("*","");
                         break;
                     }
                 } else
@@ -138,9 +149,49 @@ public class ServidorHTTPJava
             return resposta;
         }
 
+        private static String fileType(String arquivo)throws IOException 
+        {
+            BufferedReader buffRead = new BufferedReader(new FileReader("filetypelist.dat"));
+            
+            String resposta ="";
+            String linha = "";
+            String linha0 = "";
+            char[] arq = arquivo.toCharArray();
+            arq[0]=' ';
+            arquivo = String.valueOf(arq);    
+            arquivo = arquivo.trim();
+
+            while (true)
+            {
+                if (linha != null)
+                {
+                    linha0 = linha.replace("*","");
+                    if(arquivo.endsWith(linha0))
+                    {
+                        if(linha.indexOf("*")> -1)
+                        {
+
+                            return resposta;
+                        }
+                        resposta = linha;
+                        return resposta;
+                    }
+                } else
+                    break;
+                linha = buffRead.readLine();
+            }
+
+            buffRead.close();
+
+            return resposta;
+        }
+        
+        
+        
         private static String errorPhaser(String errorparam)throws IOException 
         {
             errorparam +=".html";
+            System.out.println("---------------------"+errorparam);
             BufferedReader buffRead = new BufferedReader(new FileReader("erros/errofilesdir.dat"));
 
             String resposta =null;
@@ -156,6 +207,7 @@ public class ServidorHTTPJava
                     if(linha.equals(errorparam))
                     {
                         ERRO = linha;
+                        System.out.println("-------------|||||--------"+ERRO);
                         break;
                     }
                 } else
@@ -186,19 +238,18 @@ public class ServidorHTTPJava
 
             return respostaErro;
         }
-    }
-
-    static class GetHandler implements HttpHandler
-    {
-        public void handle(HttpExchange t) throws IOException 
+        
+        
+        public void GetHandle(HttpExchange t, String type,String dir) throws IOException 
         {
 
             // add the required response header for a PDF file
             Headers h = t.getResponseHeaders();
-            h.add("Content-Type", "application/zip");
-
-            // a PDF (you provide your own!)
-            File file = new File ("TR 04.zip");
+            h.add("Content-Type", "application/"+type);
+            
+           
+            
+            File file = new File (dir);
             byte [] bytearray  = new byte [(int)file.length()];
             FileInputStream fis = new FileInputStream(file);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -212,9 +263,13 @@ public class ServidorHTTPJava
         }
     }
 
+    
+    
+
     public static void writeResponse(HttpExchange httpExchange, String response) throws IOException
     {
         httpExchange.sendResponseHeaders(200, response.length());
+        System.out.println("CLIENTE :"+httpExchange.getRemoteAddress());
         OutputStream os = httpExchange.getResponseBody();
         os.write(response.getBytes());
         os.close();
@@ -240,6 +295,7 @@ public class ServidorHTTPJava
         buffRead.close();
 
     }
+    
     public static void helper()throws IOException
     {
         String files ="help/help.help";
