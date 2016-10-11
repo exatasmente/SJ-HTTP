@@ -42,7 +42,7 @@ public class SJHTTP
         if(p<6000)
             throw new IllegalArgumentException("Porta inválida");
         InetSocketAddress Socket = new InetSocketAddress(p);
-        HttpServer servidor = HttpServer.create(Socket, 0);
+        HttpServer servidor = HttpServer.create(Socket, 10);
         servidor.createContext("/", new InfoHandler());
         servidor.setExecutor(null);
         servidor.start();
@@ -61,61 +61,64 @@ public class SJHTTP
             {
                 dir ="/index.html";
             }
-           
+
             System.out.println("Diretório "+dir);
-           
+
             phaser =  phaserCheck(dir);  
             if(phaser == "403")
             {
                 errorPhaser(httpExchange,phaser);
-                
+
             }
             if(phaser == "404")
             {
-               errorPhaser(httpExchange,phaser);
+                errorPhaser(httpExchange,phaser);
             }
             else
             {
-             
+
                 url =fileType(dir);
                 if(url != null)
                 {
                     System.out.println(url);
                     GetHandle(httpExchange, url, dir);
                 }
-                File file = new File(phaser);
-                if(file.exists()== false)
-                {
-                    errorPhaser(httpExchange,"404");
-                }                
-                else
-                {
-                    System.out.println("Arquivo "+phaser);
-                    BufferedReader buffRead = new BufferedReader(new FileReader(phaser));
-
-                    String response ="";
-                    String linha = "";
-                    System.out.println(buffRead);
-
-                    while (true)
+                else{
+                    File file = new File(phaser);
+                    if(file.exists()== false)
                     {
-                        if (linha != null)
+                        errorPhaser(httpExchange,"404");
+                    }                
+                    else
+                    {
+                        System.out.println("Arquivo "+phaser);
+                        BufferedReader buffRead = new BufferedReader(new FileReader(phaser));
+
+                        String response ="";
+                        String linha = "";
+                        System.out.println(buffRead);
+
+                        while (true)
                         {
-                            response +=linha;
-                            response +="\n";
-                        } else{
-                            break;
+                            if (linha != null)
+                            {
+                                response +=linha;
+                                response +="\n";
+                            } else{
+                                break;
+                            }
+                            linha = buffRead.readLine();
                         }
-                        linha = buffRead.readLine();
+
+                        buffRead.close();
+
+                        String resposta = response;
+
+                        SJHTTP.writeResponse(httpExchange, resposta);
                     }
-
-                    buffRead.close();
-
-                    String resposta = response;
-
-                    SJHTTP.writeResponse(httpExchange, resposta);
                 }
             }
+
         }
 
         private static String phaserCheck(String arquivo)throws IOException 
@@ -163,7 +166,7 @@ public class SJHTTP
         private static String fileType(String arquivo)throws IOException 
         {
             BufferedReader buffRead = new BufferedReader(new FileReader("filetypelist.dat"));
-            
+
             String resposta =null;
             String linha = "";
             String linha0 = "";
@@ -199,7 +202,6 @@ public class SJHTTP
             return resposta;
         }
 
-        
         private static void errorPhaser(HttpExchange httpExchange, String errorparam)throws IOException 
         {
             errorparam +=".html";
@@ -257,7 +259,6 @@ public class SJHTTP
             Headers h = t.getResponseHeaders();
             h.add("Content-Type", "application/"+type);
 
-            
             File file = new File ("wwwroot/"+dir);
             byte [] bytearray  = new byte [(int)file.length()];
             FileInputStream fis = new FileInputStream(file);
@@ -272,7 +273,6 @@ public class SJHTTP
         }
     }
 
-    
     public static void writeResponse(HttpExchange httpExchange, String response) throws IOException
     {
         httpExchange.sendResponseHeaders(200, response.length());
